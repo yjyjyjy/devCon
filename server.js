@@ -6,6 +6,9 @@ const app = express();
 // connect to Mongo DB
 connectDB();
 
+// a new way to do bodyParser
+app.use(express.json({ extended: false }));
+
 app.get("/", (req, res) => res.send("API running"));
 
 // Define Routes
