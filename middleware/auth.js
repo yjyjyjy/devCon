@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
+//auth middleware. This is used to protect a private route.
+
 module.exports = (req, res, next) => {
   // Get the token from the header
   const token = req.header("x-auth-token");
