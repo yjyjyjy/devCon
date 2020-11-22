@@ -99,7 +99,7 @@ router.post(
     if (instagram) {
       profileFields.social.instagram = instagram;
     }
-    
+
     // mongoose operation
     let profile;
     try {
@@ -124,5 +124,23 @@ router.post(
     }
   }
 );
+
+// @route GET api/profile
+// @desc get all profiles
+// @access Public
+let profiles;
+router.get("/", async (req, res) => {
+  try {
+    profiles = await Profile.find({}).populate("user", [
+      "user",
+      "name",
+      "avatar",
+    ]);
+    res.json(profiles);
+  } catch (error) {
+    console.error(err.message);
+    res.status(500).json({ msg: "Retrieve all users failed" });
+  }
+});
 
 module.exports = router;
