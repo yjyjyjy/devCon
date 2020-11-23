@@ -3,6 +3,9 @@ const router = express.Router();
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
 const { check, validationResult } = require("express-validator");
+const { json } = require("express");
+const User = require("../../models/User");
+const { findOne } = require("../../models/Profile");
 
 // @route GET api/profile/me
 // @desc get current user's profile
@@ -128,9 +131,10 @@ router.post(
 // @route GET api/profile
 // @desc get all profiles
 // @access Public
-let profiles;
+
 router.get("/", async (req, res) => {
   try {
+    let profiles;
     profiles = await Profile.find({}).populate("user", [
       "user",
       "name",
@@ -138,9 +142,95 @@ router.get("/", async (req, res) => {
     ]);
     res.json(profiles);
   } catch (error) {
-    console.error(err.message);
+    console.error(error.message);
     res.status(500).json({ msg: "Retrieve all users failed" });
   }
 });
+
+// @route GET api/profile/user/:uid
+// @desc get profile by user id
+// @access Public
+
+router.get("/user/:uid", async (req, res) => {
+  let profile;
+  try {
+    profile = await Profile.findOne({ user: req.params.uid }).populate("user", [
+      "user",
+      "name",
+      "avatar",
+    ]);
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Can't find the user's profile by user id" });
+  }
+});
+
+// @route DELETE api/profile/user/:uid
+// @desc delete profile, user and posts of the current user.
+// @access Private
+
+router.delete("/", auth, async (req, res) => {
+  try {
+    await Profile.findOneAndRemove({ user: req.user.id });
+    await User.findByIdAndRemove(req.user.id);
+
+    res.status(200).json({ msg: "deletion succeeded!" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Can't find the user's profile by user id" });
+  }
+});
+
+// @route PUT api/profile/experience
+// @desc add profile experience
+// @access Private
+
+router.put(
+  "/experience",
+  [
+    auth,
+    [
+      check("title", "title is required").not().isEmpty(),
+      check("company", "company is required").not().isEmpty(),
+      check("from", "from date is required").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    } = req.body;
+
+    const newExp = {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.experiences.push(newExp); // same to push but to the beginning.
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ msg: "Error adding experience" });
+    }
+  }
+);
 
 module.exports = router;
