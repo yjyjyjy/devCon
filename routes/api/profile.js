@@ -233,4 +233,104 @@ router.put(
   }
 );
 
+// @route DELETE api/profile/experience/:exp_id
+// @desc delete profile experience
+// @access Private
+
+router.delete("/experience/:exp_id", auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    const experience = profile.experiences.filter(
+      (exp) => exp.id === req.params.exp_id
+    )[0];
+    if (!experience) {
+      res.status(500).json({ msg: "cannot find the experience requested" });
+    }
+    profile.experiences = profile.experiences.filter(
+      (exp) => exp.id !== experience.id
+    );
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Error deleting experience" });
+  }
+});
+
+// @route PUT api/profile/education
+// @desc add profile education
+// @access Private
+
+router.put(
+  "/education",
+  [
+    auth,
+    [
+      check("degree", "degree is required").not().isEmpty(),
+      check("school", "school is required").not().isEmpty(),
+      check("fieldofstudy", "fieldofstudy is required").not().isEmpty(),
+      check("from", "from date is required").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    const {
+      degree,
+      school,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    } = req.body;
+
+    const newEdu = {
+      degree,
+      school,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    };
+
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.education.push(newEdu); // same to push but to the beginning.
+      await profile.save();
+      res.json(profile);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ msg: "Error adding education" });
+    }
+  }
+);
+
+// @route DELETE api/profile/experience/:exp_id
+// @desc delete profile experience
+// @access Private
+
+router.delete("/education/:edu_id", auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+    const education = profile.education.filter(
+      (edu) => edu.id === req.params.edu_id
+    )[0];
+    if (!education) {
+      res.status(500).json({ msg: "cannot find the education requested" });
+    }
+    profile.education = profile.education.filter(
+      (edu) => edu.id !== education.id
+    );
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ msg: "Error deleting education" });
+  }
+});
+
 module.exports = router;
