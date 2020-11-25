@@ -36,24 +36,34 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
     const { email, password } = req.body;
+
     let user;
     let isPasswordValid = false;
 
     try {
       // verify user
       user = await User.findOne({ email });
-      isPasswordValid = await bcryptjs.compare(password, user.password);
-
-      if (!user || isPasswordValid) {
+      if (!user) {
         return res
           .status(400)
           .json({ errors: [{ msg: "Incorrect Email or Password" }] });
       }
+
+      isPasswordValid = await bcryptjs.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Incorrect Email or Password" }] });
+      }
+
+      console.log(user);
+      console.log(isPasswordValid);
 
       // Return the jsonWebToken
       const payload = {
