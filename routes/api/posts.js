@@ -102,4 +102,74 @@ router.delete("/:postId", auth, async (req, res) => {
   }
 });
 
+// @route PUT api/posts/like/:postId
+// @desc user like a post
+// @access Private
+router.put("/like/:postId", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ msg: "Retrieving post by id failed. Post not found" });
+    }
+
+    // check if the post has already been liked
+    if (
+      post.likes.filter((like) => like.user.toString() === req.user.id).length >
+      0
+    ) {
+      return res.status(400).json({ msg: "the post has already been liked" });
+    }
+    post.likes.unshift({ user: req.user.id });
+    await post.save();
+    res.json(post.likes);
+  } catch (error) {
+    if (error.kind === "ObjectId") {
+      // when input is not a valid object id.
+      return res.status(404).json({
+        msg: "Retrieving post by id failed. Input is not an Object Id",
+      });
+    }
+    console.error(error.message);
+    res.status(500).send("server error while adding like to post");
+  }
+});
+
+// @route PUT api/posts/unlike/:postId
+// @desc user unlike a post
+// @access Private
+router.put("/unlike/:postId", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res
+        .status(404)
+        .json({ msg: "Retrieving post by id failed. Post not found" });
+    }
+
+    // check if the post has already been liked
+    if (
+      post.likes.filter((like) => like.user.toString() === req.user.id)
+        .length === 0
+    ) {
+      return res.status(400).json({ msg: "the post has not been liked" });
+    }
+    post.likes = post.likes.filter(
+      (like) => like.user.toString() !== req.user.id
+    );
+    await post.save();
+    res.json(post.likes);
+  } catch (error) {
+    if (error.kind === "ObjectId") {
+      // when input is not a valid object id.
+      return res.status(404).json({
+        msg: "Retrieving post by id failed. Input is not an Object Id",
+      });
+    }
+    console.error(error.message);
+    res.status(500).send("server error while adding like to post");
+  }
+});
+
 module.exports = router;
