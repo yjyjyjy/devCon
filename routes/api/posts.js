@@ -172,4 +172,71 @@ router.put("/unlike/:postId", auth, async (req, res) => {
   }
 });
 
+// @route POST api/posts/comment/:postId
+// @desc Add a comment to a post
+// @access Private
+router.post(
+  "/comment/:postId",
+  [auth, [check("text", "Comment text is required").not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const user = await User.findById(req.user.id).select("-password");
+      const post = await Post.findById(req.params.postId);
+      const newComment = {
+        user: req.user.id,
+        name: user.name,
+        avatar: user.avatar,
+        text: req.body.text,
+      };
+      post.comments.unshift(newComment);
+      await post.save();
+      res.json(newComment);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("server error while adding a comment to a post");
+    }
+  }
+);
+
+// @route DELETE api/posts/comment/:postId/:commentId
+// @desc delete a comment to a post
+// @access Private
+router.delete("/comment/:postId/:commentId", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    const comment = post.comments.find(
+      (comment) => comment.id.toString() === req.params.commentId
+    );
+    if (!comment) {
+      return res.status(404).json({
+        msg: "Deleting comment failed. Cannot find the comment to be deleted.",
+      });
+    }
+    if (comment.user.toString() !== req.user.id) {
+      return res.status(401).json({
+        msg: "Unauthorized user!",
+      });
+    }
+    post.comments = post.comments.filter(
+      (comment) => comment.id.toString() !== req.params.commentId
+    );
+    await post.save();
+    res.json(post.comments);
+  } catch (error) {
+    if (error.kind === "ObjectId") {
+      // when input is not a valid object id.
+      return res.status(400).json({
+        msg: "Deleting comment by id failed. Input is not an Object Id",
+      });
+    }
+    console.error(error.message);
+    res.status(500).send("server error while deleting comment by id");
+  }
+});
+
 module.exports = router;

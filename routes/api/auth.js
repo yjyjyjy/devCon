@@ -62,9 +62,6 @@ router.post(
           .json({ errors: [{ msg: "Incorrect Email or Password" }] });
       }
 
-      console.log(user);
-      console.log(isPasswordValid);
-
       // Return the jsonWebToken
       const payload = {
         user: {
