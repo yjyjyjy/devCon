@@ -5,11 +5,12 @@ import Landing from "./component/layout/Landing";
 import "./App.css";
 import Register from "./component/auth/Register";
 import Login from "./component/auth/Login";
+import Alert from "./component/layout/Alert";
 
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import Alert from "./component/layout/Alert";
+
 
 const App = () => (
   <Provider store={store}>
