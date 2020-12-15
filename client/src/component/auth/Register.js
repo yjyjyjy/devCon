@@ -1,11 +1,12 @@
 import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-const Register = ({ setAlert, register }) => { // decompose props into setAlert, register, etc.
+const Register = ({ setAlert, register, isAuthenticated }) => {
+  // decompose props into setAlert, register, etc.
   const [formData, setFormDData] = useState({
     name: "",
     email: "",
@@ -29,6 +30,10 @@ const Register = ({ setAlert, register }) => { // decompose props into setAlert,
       console.log("SUCCESS!");
     }
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
 
   return (
     <Fragment>
@@ -95,6 +100,11 @@ const Register = ({ setAlert, register }) => { // decompose props into setAlert,
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
-export default connect(null, { setAlert, register })(Register); // This allows us to access props.setAlert
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register); // This allows us to access props.setAlert
