@@ -12,6 +12,8 @@ import { loadUser } from "./actions/auth";
 import { Provider } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
+import Dashboard from "./component/dashboard/dashboard";
+import PrivateRoute from "./component/routing/PrivateRoute";
 
 // check if there is a valid token in the local storage already. We can log user in if there is.
 if (localStorage.token) {
@@ -33,6 +35,7 @@ const App = () => {
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
           </section>
         </Fragment>
