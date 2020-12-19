@@ -1,5 +1,10 @@
 import React, { Fragment, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
 import Navbar from "./component/layout/Navbar";
 import Landing from "./component/layout/Landing";
 import "./App.css";
@@ -36,6 +41,7 @@ const App = () => {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <Redirect to="/" />
             </Switch>
           </section>
         </Fragment>
