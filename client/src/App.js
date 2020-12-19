@@ -17,7 +17,7 @@ import { loadUser } from "./actions/auth";
 import { Provider } from "react-redux";
 import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
-import Dashboard from "./component/dashboard/dashboard";
+import Dashboard from "./component/dashboard/Dashboard";
 import PrivateRoute from "./component/routing/PrivateRoute";
 
 // check if there is a valid token in the local storage already. We can log user in if there is.

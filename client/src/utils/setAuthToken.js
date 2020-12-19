@@ -1,5 +1,4 @@
 // Add the token to the header if there is one.
-
 import axios from "axios";
 
 // this method sync the local storage token with the default auth token sent with every request.
