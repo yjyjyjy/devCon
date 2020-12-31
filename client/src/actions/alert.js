@@ -5,7 +5,7 @@ export const setAlert = (msg, alertType, timeout = 5000) => (dispatch) => {
   const id = uuid();
   dispatch({
     type: SET_ALERT,
-    payload: { msg, alertType, id },
+    payload: { msg, alertType, id }, // alertType: primary, light, dark, danger, success, white
   });
 
   // after certain amount of time remove the alert

@@ -1,10 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./component/layout/Navbar";
 import Landing from "./component/layout/Landing";
 import "./App.css";
@@ -19,6 +14,7 @@ import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import Dashboard from "./component/dashboard/Dashboard";
 import PrivateRoute from "./component/routing/PrivateRoute";
+import ProfileForm from "./component/profile-forms/ProfileForm";
 
 // check if there is a valid token in the local storage already. We can log user in if there is.
 if (localStorage.token) {
@@ -41,6 +37,11 @@ const App = () => {
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute
+                exact
+                path="/create-profile"
+                component={ProfileForm}
+              />
             </Switch>
           </section>
         </Fragment>
