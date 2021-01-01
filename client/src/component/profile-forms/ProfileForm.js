@@ -1,6 +1,9 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { createOrUpdateProfile } from "../../actions/profile";
+import {
+  createOrUpdateProfile,
+  getCurrentProfile,
+} from "../../actions/profile";
 import { Link, withRouter } from "react-router-dom";
 import { PropTypes } from "prop-types";
 
@@ -19,9 +22,31 @@ const initialState = {
   instagram: "",
 };
 
-const ProfileForm = ({ createOrUpdateProfile, history }) => {
+const ProfileForm = ({
+  profile: { profile, loading },
+  createOrUpdateProfile,
+  getCurrentProfile,
+  history,
+}) => {
   const [formData, setFormData] = useState(initialState);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
+  useEffect(() => {
+    if (!profile) getCurrentProfile();
+    if (!loading && profile) {
+      const profileData = { ...initialState };
+      for (const key in profile) {
+        if (key in profileData) profileData[key] = profile[key];
+      }
+      for (const key in profile.social) {
+        if (key in profileData) profileData[key] = profile.social[key];
+      }
+      if (Array.isArray(profileData.skills))
+        profileData.skills = profileData.skills.join(", ");
+      setFormData(profileData);
+    }
+  }, [loading, getCurrentProfile, profile]);
+
   const {
     company,
     website,
@@ -42,7 +67,7 @@ const ProfileForm = ({ createOrUpdateProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createOrUpdateProfile(formData, history);
+    createOrUpdateProfile(formData, history, profile !== null);
   };
 
   return (
@@ -211,9 +236,9 @@ const ProfileForm = ({ createOrUpdateProfile, history }) => {
         )}
 
         <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" href="dashboard.html">
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
-        </a>
+        </Link>
       </form>
     </Fragment>
   );
@@ -221,8 +246,15 @@ const ProfileForm = ({ createOrUpdateProfile, history }) => {
 
 ProfileForm.propTypes = {
   createOrUpdateProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { createOrUpdateProfile })(
-  withRouter(ProfileForm)
-);
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, {
+  createOrUpdateProfile,
+  getCurrentProfile,
+})(withRouter(ProfileForm));

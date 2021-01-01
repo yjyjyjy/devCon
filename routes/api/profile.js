@@ -107,6 +107,7 @@ router.post(
     let profile;
     try {
       profile = await Profile.findOne({ user: req.user.id });
+      console.log(profile);
       if (profile) {
         // update
         profile = await Profile.findOneAndUpdate(
@@ -353,7 +354,7 @@ router.get("/github/:username", (req, res) => {
         console.log(error);
       }
       if (response.statusCode !== 200) {
-        console.log(response.statusCode)
+        console.log(response.statusCode);
         return res.status(404).json({ msg: "No Github profile found!" });
       }
       res.json(JSON.parse(body));
