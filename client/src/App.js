@@ -15,6 +15,8 @@ import setAuthToken from "./utils/setAuthToken";
 import Dashboard from "./component/dashboard/Dashboard";
 import PrivateRoute from "./component/routing/PrivateRoute";
 import ProfileForm from "./component/profile-forms/ProfileForm";
+import AddExperience from "./component/profile-forms/AddExperience";
+import AddEducation from "./component/profile-forms/AddEducation";
 
 // check if there is a valid token in the local storage already. We can log user in if there is.
 if (localStorage.token) {
@@ -46,6 +48,16 @@ const App = () => {
                 exact
                 path="/edit-profile"
                 component={ProfileForm}
+              />
+              <PrivateRoute
+                exact
+                path="/add-experience"
+                component={AddExperience}
+              />
+              <PrivateRoute
+                exact
+                path="/add-education"
+                component={AddEducation}
               />
             </Switch>
           </section>
