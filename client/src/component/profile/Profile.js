@@ -5,6 +5,7 @@ import { getProfileByUserId } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
 import ProfileTop from "./ProfileTop";
+import ProfileAbout from "./ProfileAbout";
 
 const Profile = ({
   match: { params },
@@ -33,7 +34,8 @@ const Profile = ({
               </Link>
             )}
           <div className="profile-grid my-1">
-            <ProfileTop profile={profile} loading={loading} />
+            <ProfileTop profile={profile} />
+            <ProfileAbout profile={profile} />
           </div>
         </Fragment>
       )}
