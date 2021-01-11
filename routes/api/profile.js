@@ -64,51 +64,26 @@ router.post(
 
     const profileFields = {};
     profileFields.user = req.user.id;
-    if (company) {
-      profileFields.company = company;
-    }
-    if (website) {
-      profileFields.website = website;
-    }
-    if (location) {
-      profileFields.location = location;
-    }
-    if (bio) {
-      profileFields.bio = bio;
-    }
-    if (status) {
-      profileFields.status = status;
-    }
-    if (githubusername) {
-      profileFields.githubusername = githubusername;
-    }
-    if (skills) {
-      profileFields.skills = skills.split(",").map((skill) => skill.trim());
-    }
+    profileFields.company = company;
+    profileFields.website = website;
+    profileFields.location = location;
+    profileFields.bio = bio;
+    profileFields.status = status;
+    profileFields.githubusername = githubusername;
+    profileFields.skills = skills.split(",").map((skill) => skill.trim());
 
     // social stuff
     profileFields.social = {};
-    if (youtube) {
-      profileFields.social.youtube = youtube;
-    }
-    if (facebook) {
-      profileFields.social.facebook = facebook;
-    }
-    if (twitter) {
-      profileFields.social.twitter = twitter;
-    }
-    if (linkedin) {
-      profileFields.social.linkedin = linkedin;
-    }
-    if (instagram) {
-      profileFields.social.instagram = instagram;
-    }
+    profileFields.social.youtube = youtube;
+    profileFields.social.facebook = facebook;
+    profileFields.social.twitter = twitter;
+    profileFields.social.linkedin = linkedin;
+    profileFields.social.instagram = instagram;
 
     // mongoose operation
     let profile;
     try {
       profile = await Profile.findOne({ user: req.user.id });
-      console.log(profile);
       if (profile) {
         // update
         profile = await Profile.findOneAndUpdate(

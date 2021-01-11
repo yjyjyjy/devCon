@@ -44,6 +44,9 @@ const ProfileForm = ({
       if (Array.isArray(profileData.skills))
         profileData.skills = profileData.skills.join(", ");
       setFormData(profileData);
+      if (profileData.social !== {} && !displaySocialInputs) {
+        toggleSocialInputs(true);
+      }
     }
   }, [loading, getCurrentProfile, profile]);
 
@@ -235,7 +238,7 @@ const ProfileForm = ({
           </Fragment>
         )}
 
-        <input type="submit" className="btn btn-primary my-1" />
+        <input type="submit" className="btn btn-primary my-1" value="Save" />
         <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
         </Link>
