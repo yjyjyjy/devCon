@@ -48,7 +48,7 @@ const ProfileForm = ({
         toggleSocialInputs(true);
       }
     }
-  }, [loading, getCurrentProfile, profile]);
+  }, [loading, getCurrentProfile, profile, displaySocialInputs]);
 
   const {
     company,

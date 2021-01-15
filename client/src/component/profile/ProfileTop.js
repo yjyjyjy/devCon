@@ -1,7 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import profile from "../../reducers/profile";
-import Spinner from "../layout/Spinner";
 
 const ProfileTop = ({
   profile: {
@@ -12,7 +10,6 @@ const ProfileTop = ({
     website,
     social,
   },
-  loading,
 }) => {
   return (
     <div className="profile-top bg-primary p-2">
