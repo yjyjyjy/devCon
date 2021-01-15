@@ -17,9 +17,11 @@ export const getPosts = () => async (dispatch) => {
 // update likes
 export const updateLikes = (postId, like = true) => async (dispatch) => {
   try {
-    await axios.put(`/api/posts/${like ? "like" : "unlike"}/${postId}`);
-    const res = await axios.get("/api/posts");
-    dispatch({ type: UPDATE_LIKES, payload: res.data });
+    const res = await axios.put(
+      `/api/posts/${like ? "like" : "unlike"}/${postId}`
+    );
+    const likes = res.data;
+    dispatch({ type: UPDATE_LIKES, payload: { postId, likes } });
   } catch (err) {
     console.log(err.response.status);
     console.log(err.response.statusText);
