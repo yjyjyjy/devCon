@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_POSTS, POST_ERROR, UPDATE_LIKES } from "./constants";
+import { DELETE_POST, GET_POSTS, POST_ERROR, UPDATE_LIKES } from "./constants";
 
 // Get Posts
 export const getPosts = () => async (dispatch) => {
@@ -31,3 +31,12 @@ export const updateLikes = (postId, like = true) => async (dispatch) => {
     });
   }
 };
+
+// delete post
+export const deletePost = () => async dispatch => {
+  try {
+    console.log(DELETE_POST)
+  } catch (err) {
+    
+  }
+}
