@@ -23,8 +23,6 @@ export const updateLikes = (postId, like = true) => async (dispatch) => {
     const likes = res.data;
     dispatch({ type: UPDATE_LIKES, payload: { postId, likes } });
   } catch (err) {
-    console.log(err.response.status);
-    console.log(err.response.statusText);
     dispatch({
       type: POST_ERROR,
       payload: { status: err.response.status, msg: err.response.statusText },
@@ -33,10 +31,16 @@ export const updateLikes = (postId, like = true) => async (dispatch) => {
 };
 
 // delete post
-export const deletePost = () => async dispatch => {
+export const deletePost = (postId) => async (dispatch) => {
   try {
-    console.log(DELETE_POST)
+    console.log(DELETE_POST);
+    console.log(postId);
+    // await axios.delete(`/api/posts/${postId}`);
+    dispatch({ type: DELETE_POST, payload: { postId } });
   } catch (err) {
-    
+    dispatch({
+      type: POST_ERROR,
+      payload: { status: err.response.status, msg: err.response.statusText },
+    });
   }
-}
+};
