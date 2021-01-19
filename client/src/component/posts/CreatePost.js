@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { createPost } from "../../actions/post";
-import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 
 const CreatePost = ({ createPost }) => {

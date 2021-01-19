@@ -2,6 +2,7 @@ import {
   CREATE_POST,
   DELETE_POST,
   GET_POSTS,
+  GET_POST_BY_ID,
   POST_ERROR,
   UPDATE_LIKES,
 } from "../actions/constants";
@@ -21,6 +22,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         posts: payload,
+        loading: false,
+      };
+    case GET_POST_BY_ID:
+      return {
+        ...state,
+        post: payload.post,
         loading: false,
       };
     case CREATE_POST:
