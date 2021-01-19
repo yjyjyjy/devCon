@@ -34,11 +34,13 @@ export default function (state = initialState, action) {
         posts: state.posts.map((post) =>
           post._id === payload.postId ? { ...post, likes: payload.likes } : post
         ),
+        loading: false,
       };
     case DELETE_POST:
       return {
         ...state,
         posts: state.posts.filter((post) => post._id !== payload.postId),
+        loading: false,
       };
     default:
       return state;

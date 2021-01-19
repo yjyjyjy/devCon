@@ -7,10 +7,6 @@ import Register from "./component/auth/Register";
 import Login from "./component/auth/Login";
 import Alert from "./component/layout/Alert";
 import { loadUser } from "./actions/auth";
-
-// Redux
-import { Provider } from "react-redux";
-import store from "./store";
 import setAuthToken from "./utils/setAuthToken";
 import Dashboard from "./component/dashboard/Dashboard";
 import PrivateRoute from "./component/routing/PrivateRoute";
@@ -20,6 +16,11 @@ import AddEducation from "./component/profile-forms/AddEducation";
 import Profiles from "./component/profiles/Profiles";
 import Profile from "./component/profile/Profile";
 import Posts from "./component/posts/Posts";
+
+// Redux
+import { Provider } from "react-redux";
+import store from "./store";
+
 // check if there is a valid token in the local storage already. We can log user in if there is.
 if (localStorage.token) {
   setAuthToken(localStorage.token);
