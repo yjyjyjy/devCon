@@ -27,4 +27,5 @@ export const GET_POSTS = "GET_POSTS";
 export const GET_POST_BY_ID = "GET_POST_BY_ID";
 export const UPDATE_LIKES = "UPDATE_LIKES";
 export const CREATE_POST_COMMENT = "CREATE_POST_COMMENT";
+export const DELETE_POST_COMMENT = "DELETE_POST_COMMENT";
 export const POST_ERROR = "POST_ERROR";
