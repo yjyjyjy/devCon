@@ -3,6 +3,7 @@ import {
   CREATE_POST,
   CREATE_POST_COMMENT,
   DELETE_POST,
+  DELETE_POST_COMMENT,
   GET_POSTS,
   GET_POST_BY_ID,
   POST_ERROR,
@@ -100,7 +101,7 @@ export const createPostComment = ({ postId, text }) => async (dispatch) => {
       type: CREATE_POST_COMMENT,
       payload: { createdComment: res.data },
     });
-    dispatch(setAlert("Post Created", "success"));
+    dispatch(setAlert("Post Comment Created", "success"));
   } catch (err) {
     console.log(err);
     !!err.response &&
@@ -112,12 +113,18 @@ export const createPostComment = ({ postId, text }) => async (dispatch) => {
 };
 
 // delete post
-export const deletePostComment = (commentId) => async (dispatch) => {
+export const deletePostComment = ({ postId, postCommentId }) => async (
+  dispatch
+) => {
   try {
-    console.log(commentId);
-    // await axios.delete(`/api/posts/${postId}`);
-    // dispatch({ type: DELETE_POST, payload: { postId } });
-    // dispatch(setAlert("Post Removed", "success"));
+    const res = await axios.delete(
+      `/api/posts/comment/${postId}/${postCommentId}`
+    );
+    dispatch({
+      type: DELETE_POST_COMMENT,
+      payload: { remainingPostComments: res.data },
+    });
+    dispatch(setAlert("Post Comment Removed", "success"));
   } catch (err) {
     console.log(err);
     !!err.response &&

@@ -36,7 +36,11 @@ const Post = ({
         {post.comments
           .sort((a, b) => (a.date < b.date ? 1 : -1))
           .map((comment) => (
-            <PostCommentItem key={comment._id} comment={comment} />
+            <PostCommentItem
+              key={comment._id}
+              comment={comment}
+              postId={postId}
+            />
           ))}
       </Fragment>
     )

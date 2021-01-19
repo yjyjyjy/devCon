@@ -7,6 +7,7 @@ import { deletePostComment } from "../../actions/post";
 
 const PostCommentItem = ({
   comment: { _id, avatar, date, name, text, user },
+  postId,
   authUser,
   loading,
   deletePostComment,
@@ -28,7 +29,7 @@ const PostCommentItem = ({
           <button
             type="button"
             className="btn btn-danger"
-            onClick={() => deletePostComment(_id)}
+            onClick={() => deletePostComment({ postId, postCommentId: _id })}
           >
             <i className="fas fa-times"></i>
           </button>

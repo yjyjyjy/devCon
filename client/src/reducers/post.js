@@ -3,6 +3,7 @@ import {
   CREATE_POST,
   CREATE_POST_COMMENT,
   DELETE_POST,
+  DELETE_POST_COMMENT,
   GET_POSTS,
   GET_POST_BY_ID,
   POST_ERROR,
@@ -64,6 +65,15 @@ export default function (state = initialState, action) {
         post: {
           ...state.post,
           comments: [payload.createdComment, ...state.post.comments],
+        },
+        loading: false,
+      };
+    case DELETE_POST_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: payload.remainingPostComments,
         },
         loading: false,
       };
