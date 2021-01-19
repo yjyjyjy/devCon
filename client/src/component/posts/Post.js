@@ -44,7 +44,6 @@ const Post = ({
 };
 
 Post.propTypes = {
-  post: PropTypes.object.isRequired,
   getPostById: PropTypes.func.isRequired,
 };
 

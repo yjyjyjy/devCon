@@ -12,7 +12,6 @@ const CreatePostComment = ({ postId, createPostComment }) => {
       <div className="bg-primary p">
         <h3>Leave A Comment</h3>
       </div>
-      <div>{postId}</div>
       <form
         className="form my-1"
         onSubmit={(e) => {
