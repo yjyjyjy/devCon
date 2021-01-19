@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { getPostById } from "../../actions/post";
 import { Link } from "react-router-dom";
 import PostCommentItem from "./PostCommentItem";
+import CreatePostComment from "./CreatePostComment";
 
 const Post = ({
   match: {
@@ -29,21 +30,7 @@ const Post = ({
         </div>
 
         {/* comment Form */}
-        <div className="post-form">
-          <div className="bg-primary p">
-            <h3>Leave A Comment</h3>
-          </div>
-          <form className="form my-1">
-            <textarea
-              name="text"
-              cols="30"
-              rows="5"
-              placeholder="Comment on this post"
-              required
-            ></textarea>
-            <input type="submit" className="btn btn-dark my-1" value="Submit" />
-          </form>
-        </div>
+        <CreatePostComment postId={postId} />
 
         {/* comments */}
         {post.comments.map((comment) => (
