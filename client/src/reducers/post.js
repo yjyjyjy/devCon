@@ -1,4 +1,5 @@
 import {
+  CREATE_POST,
   DELETE_POST,
   GET_POSTS,
   POST_ERROR,
@@ -22,6 +23,18 @@ export default function (state = initialState, action) {
         posts: payload,
         loading: false,
       };
+    case CREATE_POST:
+      return {
+        ...state,
+        posts: [...state.posts, payload.createdPost],
+        loading: false,
+      };
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post._id !== payload.postId),
+        loading: false,
+      };
     case POST_ERROR:
       return {
         ...state,
@@ -36,12 +49,7 @@ export default function (state = initialState, action) {
         ),
         loading: false,
       };
-    case DELETE_POST:
-      return {
-        ...state,
-        posts: state.posts.filter((post) => post._id !== payload.postId),
-        loading: false,
-      };
+
     default:
       return state;
   }

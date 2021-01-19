@@ -4,6 +4,7 @@ import { getPosts } from "../../actions/post";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
+import CreatePost from "./CreatePost";
 
 const Posts = ({ getPosts, post: { posts, loading } }) => {
   useEffect(() => getPosts(), [getPosts]);
@@ -14,11 +15,13 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
       <p className="lead">
         <i className="fas fa-user"></i> Welcome to the community
       </p>
-      {/*Post Form*/}
+      <CreatePost />
       <div className="posts">
-        {posts.map((p) => (
-          <PostItem key={p._id} post={p} />
-        ))}
+        {posts
+          .sort((a, b) => (a.date < b.date ? 1 : -1))
+          .map((p) => (
+            <PostItem key={p._id} post={p} />
+          ))}
       </div>
     </Fragment>
   ) : (
