@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   CREATE_POST,
+  CREATE_POST_COMMENT,
   DELETE_POST,
   GET_POSTS,
   GET_POST_BY_ID,
@@ -80,6 +81,23 @@ export const deletePost = (postId) => async (dispatch) => {
     await axios.delete(`/api/posts/${postId}`);
     dispatch({ type: DELETE_POST, payload: { postId } });
     dispatch(setAlert("Post Removed", "success"));
+  } catch (err) {
+    console.log(err);
+    !!err.response &&
+      dispatch({
+        type: POST_ERROR,
+        payload: { status: err.response.status, msg: err.response.statusText },
+      });
+  }
+};
+
+// create post comment
+export const createPostComment = ({ postId, text }) => async (dispatch) => {
+  try {
+    const res = await axios.post(`/api/posts/comment/${postId}`, { text });
+    console.log(res);
+    dispatch({ type: CREATE_POST_COMMENT, payload: { createdComment: res.data } });
+    dispatch(setAlert("Post Created", "success"));
   } catch (err) {
     console.log(err);
     !!err.response &&

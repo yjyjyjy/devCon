@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 const PostCommentItem = ({
   comment: { _id, avatar, date, name, text, user },
-  authUserId,
+  authUser,
 }) => {
   return (
     <div className="post bg-white p-1 my-1">
@@ -20,7 +20,7 @@ const PostCommentItem = ({
         <p className="post-date">
           Posted on <Moment format="MM/DD/YYYY">{date}</Moment>
         </p>
-        {user === authUserId && (
+        {user === authUser._id && (
           <button type="button" className="btn btn-danger">
             <i className="fas fa-times"></i>
           </button>
@@ -33,7 +33,7 @@ const PostCommentItem = ({
 PostCommentItem.propTypes = { comment: PropTypes.object.isRequired };
 
 const mapStateToProps = (state) => ({
-  authUserId: state.auth.user._id,
+  authUser: state.auth.user,
 });
 
 export default connect(mapStateToProps)(PostCommentItem);

@@ -1,5 +1,7 @@
+import { post } from "request";
 import {
   CREATE_POST,
+  CREATE_POST_COMMENT,
   DELETE_POST,
   GET_POSTS,
   GET_POST_BY_ID,
@@ -33,7 +35,7 @@ export default function (state = initialState, action) {
     case CREATE_POST:
       return {
         ...state,
-        posts: [...state.posts, payload.createdPost],
+        posts: [payload.createdPost, ...state.posts],
         loading: false,
       };
     case DELETE_POST:
@@ -56,7 +58,15 @@ export default function (state = initialState, action) {
         ),
         loading: false,
       };
-
+    case CREATE_POST_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: [payload.createdComment, ...state.post.comments],
+        },
+        loading: false,
+      };
     default:
       return state;
   }

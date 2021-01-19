@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { STATES } from "mongoose";
+import { createPostComment } from "../../actions/post";
+import { connect } from "react-redux";
 
-const CreatePostComment = ({ postId }) => {
+const CreatePostComment = ({ postId, createPostComment }) => {
   const formDataInitState = { text: "" };
   const [formData, setFormData] = useState(formDataInitState);
   const { text } = formData;
@@ -16,6 +17,7 @@ const CreatePostComment = ({ postId }) => {
         className="form my-1"
         onSubmit={(e) => {
           e.preventDefault();
+          createPostComment({ postId, text: formData.text });
           setFormData(formDataInitState);
         }}
       >
@@ -34,6 +36,9 @@ const CreatePostComment = ({ postId }) => {
   );
 };
 
-CreatePostComment.propTypes = {};
+CreatePostComment.propTypes = {
+  postId: PropTypes.string.isRequired,
+  createPostComment: PropTypes.func.isRequired,
+};
 
-export default CreatePostComment;
+export default connect(null, { createPostComment })(CreatePostComment);

@@ -21,9 +21,10 @@ export const ACCOUNT_DELETED = "ACCOUNT_DELETED";
 export const GET_REPOS = "GET_REPOS";
 
 // post
-export const GET_POSTS = "GET_POSTS";
-export const POST_ERROR = "POST_ERROR";
-export const UPDATE_LIKES = "UPDATE_LIKES";
-export const DELETE_POST = "DELETE_POST";
 export const CREATE_POST = "CREATE_POST";
+export const DELETE_POST = "DELETE_POST";
+export const GET_POSTS = "GET_POSTS";
 export const GET_POST_BY_ID = "GET_POST_BY_ID";
+export const UPDATE_LIKES = "UPDATE_LIKES";
+export const CREATE_POST_COMMENT = "CREATE_POST_COMMENT";
+export const POST_ERROR = "POST_ERROR";
