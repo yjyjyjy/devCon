@@ -64,7 +64,6 @@ const Profile = ({
                 <h4>No education credentials</h4>
               )}
             </div>
-            <span>YOOOO</span>
             {profile.githubusername && (
               <ProfileGithub userName={profile.githubusername} />
             )}
