@@ -16,11 +16,12 @@ import AddEducation from "./component/profile-forms/AddEducation";
 import Profiles from "./component/profiles/Profiles";
 import Profile from "./component/profile/Profile";
 import Posts from "./component/posts/Posts";
+import Post from "./component/posts/Post";
+import PageNotFound from "./component/layout/PageNotFound";
 
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import Post from "./component/posts/Post";
 
 // check if there is a valid token in the local storage already. We can log user in if there is.
 if (localStorage.token) {
@@ -36,39 +37,42 @@ const App = () => {
       <Router>
         <Fragment>
           <Navbar />
-          <Route exact path="/" component={Landing} />
-          <section className="container">
-            <Alert />
-            <Switch>
-              <Route exact path="/register" component={Register} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/profiles" component={Profiles} />
-              <Route exact path="/profile/:userId" component={Profile} />
-              <PrivateRoute exact path="/dashboard" component={Dashboard} />
-              <PrivateRoute exact path="/posts" component={Posts} />
-              <PrivateRoute exact path="/post/:postId" component={Post} />
-              <PrivateRoute
-                exact
-                path="/create-profile"
-                component={ProfileForm}
-              />
-              <PrivateRoute
-                exact
-                path="/edit-profile"
-                component={ProfileForm}
-              />
-              <PrivateRoute
-                exact
-                path="/add-experience"
-                component={AddExperience}
-              />
-              <PrivateRoute
-                exact
-                path="/add-education"
-                component={AddEducation}
-              />
-            </Switch>
-          </section>
+          <Switch>
+            <Route exact path="/" component={Landing} />
+            <section className="container">
+              <Alert />
+              <Switch>
+                <Route exact path="/register" component={Register} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/profiles" component={Profiles} />
+                <Route exact path="/profile/:userId" component={Profile} />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute exact path="/posts" component={Posts} />
+                <PrivateRoute exact path="/post/:postId" component={Post} />
+                <PrivateRoute
+                  exact
+                  path="/create-profile"
+                  component={ProfileForm}
+                />
+                <PrivateRoute
+                  exact
+                  path="/edit-profile"
+                  component={ProfileForm}
+                />
+                <PrivateRoute
+                  exact
+                  path="/add-experience"
+                  component={AddExperience}
+                />
+                <PrivateRoute
+                  exact
+                  path="/add-education"
+                  component={AddEducation}
+                />
+                <Route component={PageNotFound} />
+              </Switch>
+            </section>
+          </Switch>
         </Fragment>
       </Router>
     </Provider>
